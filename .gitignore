@@ -25,3 +25,7 @@
 # RubyMine files
 .idea/
 .idea/*
+
+
+# environmental values
+.env
