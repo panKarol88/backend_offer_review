@@ -27,7 +27,7 @@ class Api::V1::OffersController < ApplicationController
     offer = Offer.find(offer_params[:id])
 
     if offer.reject
-      render json: { status: 'Offer Accepted' }, status: 200
+      render json: { status: 'Offer Rejected' }, status: 200
     else
       render json: { error: 'Unable to accept the Offer' }, status: 400
     end
