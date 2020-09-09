@@ -1,5 +1,5 @@
 class Api::V1::OffersController < ApplicationController
-  before_action :validate_request
+  before_action :authorize_request
 
   def create
     @offer = Offer.new(offer_params)
@@ -21,5 +21,10 @@ class Api::V1::OffersController < ApplicationController
   def products_params
     # TODO permit all expected attributes
     params[:products]
+  end
+
+  def authorize_request
+    @role = 'salesman'
+    super
   end
 end
