@@ -6,4 +6,12 @@ class Offer < ApplicationRecord
       self.products.new(product_param.permit!) # unsafe
     end
   end
+
+  def accept
+    self.update(status: 'accept')
+  end
+
+  def reject
+    self.update(status: 'reject')
+  end
 end

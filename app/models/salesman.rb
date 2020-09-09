@@ -1,2 +1,2 @@
-class Salesman < ApplicationRecord
+class Salesman < User
 end

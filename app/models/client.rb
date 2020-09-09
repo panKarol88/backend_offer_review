@@ -1,3 +1,3 @@
-class Client < ApplicationRecord
+class Client < User
   has_many :offers
 end

@@ -1,20 +1,24 @@
 class ApplicationController < ActionController::API
-  def authorize_request
+  def authorize_request(role:)
     header = request.headers['Authorization']
     header = header.split(' ').last if header
     begin
-      @decoded = JsonWebToken.decode(header)
-      @current_user = case @role
+      decoded = JsonWebToken.decode(header)
+      # TODO rather create one model for all users (or only for admin users: salesman, admin)
+      current_user = case role
                       when 'salesman'
-                        Salesman.find(@decoded[:salesman_id])
+                        Salesman.find_by_id(decoded[:salesman_id])
                       when 'admin'
                         # TODO
-                        # Admin.find(@decoded[:admin_id])
+                        # Admin.find_by_id(@decoded[:admin_id])
                       when 'client'
-                        Client.find(@decoded[:client_id])
+                        Client.find_by_id(decoded[:client_id])
                       else
                         raise 'Unsupported role.'
-                      end
+                     end
+
+      raise ActiveRecord::RecordNotFound if current_user.nil?
+      true
     rescue ActiveRecord::RecordNotFound => e
       render json: { errors: e.message }, status: :unauthorized
     rescue JWT::DecodeError => e
